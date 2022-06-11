@@ -1,0 +1,52 @@
+body{
+    background: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);
+}
+h1, h2{
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+form{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.name{
+    font-size: 2rem;
+    height: 3rem;
+    text-align: center;
+    border-radius: 4%;
+    max-width: 300px;
+}
+.start{
+    font-size: 2rem;
+    height: 3rem;
+    text-align: center;
+    border-radius: 4%;
+}
+
+.options{
+    width: 300px;
+    height: 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: auto;
+    margin-top: 2rem;
+}
+a{
+    text-decoration: none;
+    color: black;
+    border-radius: 30%;
+    border: #1D1A1A solid 1px;
+    padding: 1rem;
+    font-size: 2.5rem;
+}
+
+a:hover{
+    box-shadow: 0px 0px 10px 6px #1D1A1A;
+    background: #1D1A1A;
+    color: white;
+}

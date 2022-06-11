@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>Options</title>
+</head>
+<body>
+    <h2>Hi {{ session.name }}</h2>
+
+    <h2>Choose your destiny</h2>
+    <div class="options">
+        <a href="{{ url_for('game') }}">
+            game
+        </a>
+        <a href="{{ url_for('game') }}">
+            statics
+        </a>
+</body>
+</html>

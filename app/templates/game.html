@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+    <title>Game</title>
+  </head>
+  <body>
+    <h1>Hi, welcome to the game {{ session.name }}</h1>
+    <h1>guess the numbers and their places between 0 and 50</h1>
+    <div class="container">
+        <div >
+            {% for item in session.numbers %}
+            <span>?</span>
+            {% endfor %}
+        </div>
+        <div>
+          <form action="" method="POST">
+            {% for index in range(5) %}
+            
+           <input type="number" id={{index}} name={{index}} class={{clase[index]}} value={{session.userNumbers[index]}} />
+            {% endfor %}
+          </div>
+          <input class="enviar"  type="submit" value="check values" />
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/layout.js') }}"></script>
+  </body>
+</html>
+
