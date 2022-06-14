@@ -10,6 +10,7 @@
   <body>
     <h1>Hi, welcome to the game {{ session.name }}</h1>
     <h1>guess the numbers and their places between 0 and 50</h1>
+    <h1>you made {{ session.attempts }} attempts</h1>
     <div class="container">
         <div >
             {% for item in session.numbers %}
@@ -19,8 +20,11 @@
         <div>
           <form action="" method="POST">
             {% for index in range(5) %}
-            
-           <input type="number" id={{index}} name={{index}} class={{clase[index]}} value={{session.userNumbers[index]}} />
+              {% if session.userNumbers: %}
+                <input type="number" id={{index}} name={{index}} class={{clase[index]}} value={{session.userNumbers[index]}} />
+              {% else %}
+                <input type="number" id={{index}} name={{index}} class={{clase[index]}} />
+              {% endif %}
             {% endfor %}
           </div>
           <input class="enviar"  type="submit" value="check values" />

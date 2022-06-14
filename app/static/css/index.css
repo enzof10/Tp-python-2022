@@ -1,15 +1,19 @@
 body{
-    background: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);
+    background: #0F0E0E;
+
+    background: linear-gradient(to bottom, #060505 0%, #0a0202 100%);
 }
 h1, h2{
     font-size: 2em;
+    margin: 2rem auto;
     font-weight: bold;
+    color: #F1EEE9;
     text-align: center;
 }
 
 form{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -21,32 +25,42 @@ form{
     max-width: 300px;
 }
 .start{
+    margin-top: 2rem;
     font-size: 2rem;
     height: 3rem;
     text-align: center;
-    border-radius: 4%;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 20%; 
 }
 
 .options{
     width: 300px;
-    height: 4rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     margin: auto;
-    margin-top: 2rem;
-}
-a{
-    text-decoration: none;
-    color: black;
-    border-radius: 30%;
-    border: #1D1A1A solid 1px;
-    padding: 1rem;
-    font-size: 2.5rem;
 }
 
+a{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    background-color:#F1EEE9;
+    border-radius: 10px;
+    border: #1D1A1A solid 1px;
+    text-align: center;
+    padding: 1rem;
+    width: 8rem;
+    height: 1.5rem;
+    font-size: 2rem;
+}
 a:hover{
+    background-color: #191254;
+    border: #73777B 1px solid;
+}
+
+.start:hover{
     box-shadow: 0px 0px 10px 6px #1D1A1A;
-    background: #1D1A1A;
-    color: white;
+    background-color: #191254;
+    border: #73777B 1px solid;
 }

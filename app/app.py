@@ -1,23 +1,14 @@
 from copy import copy
 from curses import window
+from datetime import datetime
+from hashlib import new
 import numbers
 from unicodedata import name
+from xmlrpc.client import DateTime
 from click import style
 from flask import Flask, redirect, render_template, json, request, url_for, session
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-
-
-# @app.before_request
-# def before_request():
-#     print("Antes de la peticion")
-
-# @app.after_request
-# def after_request(response):
-#     name = response
-#     print("Despues de la peticion")
-#     return response
-
 
 
 @app.route('/' , methods=['GET', 'POST'])
@@ -29,17 +20,6 @@ def index():
     return render_template('index.html')
 
 
-
-
-# @app.route('/inicio/<nombre>/<int:edad>')
-# def inicio(nombre,edad):
-#     data = {
-#         'title': 'inicio',
-#         'name' : nombre,
-#         'edad' : edad,
-#     }
-#     return render_template('inicio.html', data = data)
-
 @app.route('/options')
 def options():
     session['numbers'] = [6, 5, 6, 12, 43 ]
@@ -49,28 +29,28 @@ def options():
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
-    # name = request.args.get('name')
     styles  = style('Hello World!', fg='red', bg='blue')
-    # print(request.args.get('name'))
     clase = ["" ,"" , "", "", "" ]
     userNumbers = request.form
     if request.method == 'POST':
+        session["attempts"] = session["attempts"] + 1 
         userNumbersSave = []
         for positionUserNumber in  userNumbers.keys():
             userNumbersSave.append(userNumbers[positionUserNumber])
             for positionRandom in  range(len(session['numbers'])):
                 if int(userNumbers[positionUserNumber]) ==  int(session['numbers'][positionRandom]):
                     if int(positionRandom) == int(positionUserNumber):
-                        clase[positionRandom] = "green"
-                    elif (clase[positionRandom] != "green"):
-                        clase[positionRandom] = "yellow"
-                elif(clase[positionRandom] != "yellow" and clase[positionRandom] != "green"):
-                    clase[positionRandom] = "red"
+                        clase[int(positionUserNumber)] = "green"
+                        break
+                    else:
+                        clase[int(positionUserNumber)] = "yellow"
+                elif(clase[int(positionUserNumber)] != "yellow" and clase[int(positionUserNumber)] != "green"):
+                    clase[int(positionUserNumber)] = "red"
         session["userNumbers"] = userNumbersSave
-        print(userNumbersSave)
-        print(clase)
         return render_template('game.html', style = styles, clase = clase)
     else:
+        session["attempts"] = 0
+        session["startGame"] = datetime.now()
         return render_template('game.html',style = styles, clase = clase)   
 
 def check_numbers():
