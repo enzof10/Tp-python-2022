@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/index.css') }}"
+    />
     <title>Options</title>
-</head>
-<body>
+  </head>
+  <body>
     <h2>Hi {{ session.name }}</h2>
 
     <h2>Choose your destiny</h2>
     <div class="options">
-        <a href="{{ url_for('game') }}">
-            game
-        </a>
-        <a href="{{ url_for('game') }}">
-            statics
-        </a>
-</body>
+      <a href="{{ url_for('game') }}"> game </a>
+      <a href="{{ url_for('game') }}"> statics </a>
+    </div>
+    <div class="rules">
+      <h2>Rules</h2>
+      <p>
+        The game is played with 4 numbers between 0 and 50. The numbers are
+        generated randomly. You have to guess the numbers and their places. You
+        have only 10 attempts. If you guess the numbers correctly, you win. If
+        you don't guess the numbers correctly, you lose.
+      </p>
+      <div>
+        <li>
+          <p>red means correctly position and number</p>
+        </li>
+        <li>
+          <p>yellow means correctly number</p>
+        </li>
+        <li>
+          <p>red means incorrect</p>
+        </li>
+      </div>
+    </div>
+  </body>
 </html>

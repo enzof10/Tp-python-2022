@@ -60,6 +60,62 @@ form{
     border: #73777B 1px solid;
 }
 
+.again{
+    margin: auto;
+    padding-top: 0;
+    width: 70%;
+    height: 5rem;
+    font-size: 2em;
+    background-color: rgb(3, 95, 46);
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    text-align: center;
+    cursor: pointer;
+}
+.form-again{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10rem;
+}
+.yes{
+    margin: auto;
+    width: 50%;
+    margin-right: 2rem;
+    height: 3rem;
+    font-size: 1em;
+    background-color: rgb(167, 167, 182);
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    text-align: center;
+    cursor: pointer;
+}
+a:visited{
+    text-decoration: none;
+}
+.yes:hover{
+    background-color: #191254;
+    border: #73777B 1px solid;
+}
+.no{
+    margin: auto;
+    width: 50%;
+    height: 3rem;
+    font-size: 1em;
+    background-color: rgb(167, 167, 182);
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    text-align: center;
+    cursor: pointer;
+}
+.no:hover{
+    background-color: #191254;
+    border: #73777B 1px solid;
+}
 
 
 .green{

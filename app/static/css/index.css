@@ -25,6 +25,7 @@ form{
     max-width: 300px;
 }
 .start{
+    transition: all 0.5s ease-in-out;
     margin-top: 2rem;
     font-size: 2rem;
     height: 3rem;
@@ -55,12 +56,39 @@ a{
     font-size: 2rem;
 }
 a:hover{
+    transition: all 0.5s ease-in-out;
     background-color: #191254;
     border: #73777B 1px solid;
 }
 
 .start:hover{
+    transition: all 0.5s ease-in-out;
     box-shadow: 0px 0px 10px 6px #1D1A1A;
     background-color: #191254;
     border: #73777B 1px solid;
+}
+
+
+.rules{
+    margin: auto;
+    width: 80%;
+    background-color: rgb(32, 32, 122);
+    border-radius: 3px;
+    font-weight: bold;
+    text-align: center;
+    text-align: center;
+    cursor: pointer;
+    color: #F1EEE9;
+    transition: all 0.5s ease-in-out;
+}
+.rules:hover{
+    background-color: #191254;
+    border: #73777B 1px solid;
+}
+.rules p{
+    margin-left: 5px;
+    text-align: start;
+}
+li{
+    margin-left: 1rem;
 }

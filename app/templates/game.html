@@ -8,7 +8,7 @@
     <title>Game</title>
   </head>
   <body>
-    <h1>Hi, welcome to the game {{ session.name }}</h1>
+    <h1>Hi {{ session.name }}, welcome to the game</h1>
     <h1>guess the numbers and their places between 0 and 50</h1>
     <h1>you made {{ session.attempts }} attempts</h1>
     <div class="container">
@@ -29,7 +29,16 @@
           </div>
           <input class="enviar"  type="submit" value="check values" />
         </form>
-    </div>
+      </div>
+      {% if session.isWinner == "true" %}
+      <div class="again">
+        <h4>you won, do you want to play again?</h4>
+        <div class="form-again">
+          <a class="yes" href="game">yes</a>
+          <a class="no" href="options">no</a>
+        </div>
+     </div>
+      {% endif %}
 
     <script src="{{ url_for('static', filename='js/layout.js') }}"></script>
   </body>
