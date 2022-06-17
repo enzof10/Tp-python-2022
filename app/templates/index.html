@@ -4,22 +4,50 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/index.css') }}"
+    />
     <title>Home</title>
   </head>
   <body>
-    <div class="container" >
-        <h1>Hi, welcome to the game</h1>
-        <h2>Please enter your name</h2>
-    <div class="form">
+    <nav>
+      <span>do you already have an account?</span>
+      <div class="login">
+          <a href="login">login</a>
+      </div>
+  </nav>
+    <div class="container">
+      <h1>Hi, welcome to the game</h1>
+      <div class="form">
         <form action="" method="POST">
-            <input class="name" type="text" name="name" autocomplete="false" placeholder="Enter your name" />
-            <input class="start" type="submit" value="Start" />
+          <input
+            class="name"
+            type="text"
+            name="name"
+            autocomplete="false"
+            placeholder="Enter your name"
+            required
+          />
+          <input
+            class="name"
+            type="text"
+            name="mail"
+            autocomplete="false"
+            placeholder="Enter your mail"
+            required
+          />
+          <input
+            class="name"
+            type="password"
+            name="password"
+            autocomplete="false"
+            placeholder="Enter your password"
+            required
+          />
+          <input class="start" type="submit" value="Start" />
         </form>
-    </div>
-
-
+      </div>
     </div>
   </body>
 </html>
-

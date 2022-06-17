@@ -9,7 +9,19 @@ from xmlrpc.client import DateTime
 import random
 from click import style
 from flask import Flask, redirect, render_template, json, request, url_for, session
+from flask_sqlalchemy import SQLAlchemy
+from utils.db import db
+from models.user import User
+
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:ideaas@localhost/gamedb'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+SQLAlchemy(app)
+
+with app.app_context():
+    db.create_all()
+
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 
@@ -18,8 +30,23 @@ def index():
     if request.method == 'POST':
         name = request.form["name"]
         session["name"] = name
+        usuario = User("name", " @gmail.com", "123456")
+        db.session.add(usuario)
+        db.session.commit()
         return redirect(url_for('options'))
     return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        print(request.form)
+        name = request.form["nameOrmail"]
+        session["name"] = name
+        usuario = User("name", " @gmail.com", "123456")
+        db.session.add(usuario)
+        db.session.commit()
+        return redirect(url_for('options'))
+    return render_template('login.html')
 
 
 def ramdomGame():

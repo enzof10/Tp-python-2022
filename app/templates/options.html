@@ -11,15 +11,18 @@
     <title>Options</title>
   </head>
   <body>
-    <h2>Hi {{ session.name }}</h2>
-
+    <nav>
+      <div class="login">
+          <a href="options">{{ session.name }}</a>
+      </div>
+  </nav>
     <h2>Choose your destiny</h2>
     <div class="options">
-      <a href="{{ url_for('game') }}"> game </a>
-      <a href="{{ url_for('game') }}"> statics </a>
+      <a class="optios__a"  href="{{ url_for('game') }}"> game </a>
+      <a class="optios__a" href="{{ url_for('game') }}"> statics </a>
     </div>
     <div class="rules">
-      <h2>Rules</h2>
+      <h2>Rules:</h2>
       <p>
         The game is played with 4 numbers between 0 and 50. The numbers are
         generated randomly. You have to guess the numbers and their places. You
@@ -28,13 +31,13 @@
       </p>
       <div>
         <li>
-          <p>red means correctly position and number</p>
+          <p style="color:green ;">green means correctly position and number</p>
         </li>
         <li>
-          <p>yellow means correctly number</p>
+          <p style="color: yellow;" >yellow means correctly number</p>
         </li>
         <li>
-          <p>red means incorrect</p>
+          <p style="color: red ;">red means incorrect</p>
         </li>
       </div>
     </div>

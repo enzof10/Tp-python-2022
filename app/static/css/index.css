@@ -5,7 +5,7 @@ body{
 }
 h1, h2{
     font-size: 2em;
-    margin: 2rem auto;
+    margin: 1rem auto;
     font-weight: bold;
     color: #F1EEE9;
     text-align: center;
@@ -21,44 +21,53 @@ form{
     font-size: 2rem;
     height: 3rem;
     text-align: center;
-    border-radius: 4%;
+    border-radius: 4px;
     max-width: 300px;
+    margin-top: 1rem;
 }
-.start{
-    transition: all 0.5s ease-in-out;
-    margin-top: 2rem;
-    font-size: 2rem;
-    height: 3rem;
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 20%; 
-}
-
 .options{
     width: 300px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     margin: auto;
+    margin-bottom: 2rem;
+}
+.optios__a{
+    text-decoration: none;
+    transition: all 0.5s ease-in-out;
+    margin-top: 2rem;
+    width: 10rem;
+    background-color: #F1EEE9;
+    font-size: 2rem;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-a{
+a:visited{
+    color: inherit;
+}
+
+.optios__a:hover{
+    transition: all 0.5s ease-in-out;
+    box-shadow: 0px 0px 10px 6px #1D1A1A;
+    background-color: #191254;
+    border: #73777B 1px solid;
+}
+
+.start{
+    cursor: pointer;
+    margin-top: 2rem;
     text-decoration: none;
     color: rgb(0, 0, 0);
     background-color:#F1EEE9;
     border-radius: 10px;
     border: #1D1A1A solid 1px;
+    font-size: 1.5rem;
     text-align: center;
-    padding: 1rem;
     width: 8rem;
-    height: 1.5rem;
-    font-size: 2rem;
-}
-a:hover{
-    transition: all 0.5s ease-in-out;
-    background-color: #191254;
-    border: #73777B 1px solid;
+    height: 3rem;
 }
 
 .start:hover{
@@ -91,4 +100,30 @@ a:hover{
 }
 li{
     margin-left: 1rem;
+}
+nav{
+    width: 100%;
+    height: 3rem;
+    background-color: #f2f2f3;
+    display: flex;
+    align-items: center;
+    justify-content:right;
+    border-bottom: 1px solid #f2f2f3;
+
+}
+.login{
+    margin-right: 1rem;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #191254;
+    border: 1px solid rgb(11, 11, 11);
+    transition: all 0.5s ease-in-out;
+    width: 10%;
+
+}
+.login:hover{
+    background-color: #000000;
+    color: #F1EEE9;
+    border: #73777B 1px solid;
 }
