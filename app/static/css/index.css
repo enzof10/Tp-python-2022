@@ -108,7 +108,6 @@ nav{
     display: flex;
     align-items: center;
     justify-content:right;
-    border-bottom: 1px solid #f2f2f3;
 
 }
 .login{

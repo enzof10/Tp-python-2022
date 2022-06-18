@@ -32,7 +32,7 @@
           <input
             class="name"
             type="text"
-            name="mail"
+            name="email"
             autocomplete="false"
             placeholder="Enter your mail"
             required
@@ -45,7 +45,8 @@
             placeholder="Enter your password"
             required
           />
-          <input class="start" type="submit" value="Start" />
+          <input class="start" type="submit" value="Send" />
+          <span style="color:red;">{{ error }}</span>
         </form>
       </div>
     </div>

@@ -12,6 +12,7 @@ from flask import Flask, redirect, render_template, json, request, url_for, sess
 from flask_sqlalchemy import SQLAlchemy
 from utils.db import db
 from models.user import User
+from models.game import Game
 
 app = Flask(__name__)
 
@@ -24,28 +25,56 @@ with app.app_context():
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
+# si la palabra es una cadena vacia, retorna false
+def isValid(word):
+    return word.strip() != ""
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         name = request.form["name"]
-        session["name"] = name
-        usuario = User("name", " @gmail.com", "123456")
-        db.session.add(usuario)
-        db.session.commit()
-        return redirect(url_for('options'))
+        password = request.form["password"]
+        email = request.form["email"]
+        isValidName = isValid(name)
+        isValidPassword = isValid(password)
+        isValidEmail = isValid(email)
+        # if user is not valid, redirect to index with error message
+        if isValidName and isValidPassword and isValidEmail:
+            user = User.query.filter_by(name=name).first()
+        else:
+            return render_template('index.html', error="enter a valid name, password and email")
+
+        # if user don't exist, create a new user
+        if user is None:
+            user = User(name, email, password)
+            db.session.add(user)
+            session["name"] = name
+            db.session.commit()
+            return redirect(url_for('options'))
+        # if user already exists return error
+        else:
+            return render_template('index.html', error="El usuario ya existe")
     return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        print(request.form)
         name = request.form["nameOrmail"]
-        session["name"] = name
-        usuario = User("name", " @gmail.com", "123456")
-        db.session.add(usuario)
-        db.session.commit()
-        return redirect(url_for('options'))
+        password = request.form["password"]
+        user = User.query.filter_by(name=name).first()
+        if user:
+            if user.password == password:
+                session["name"] = user.name
+                session["id"] = user.id
+                session["idGame"] = 0
+                return redirect(url_for('options'))
+            else:
+                print("Password incorrecto")
+                return render_template('login.html', error="Password incorrecto")
+        else:
+            print("Usuario no encontrado")
+            return render_template('login.html', error="Usuario no encontrado")
     return render_template('login.html')
 
 
@@ -68,7 +97,6 @@ def options():
 def game():
     clase = ["", "", "", "", ""]
     userNumbers = request.form
-    print(session['numbers'])
     if request.method == 'POST':
         userNumbersSave = []
         corrects = 0
@@ -95,6 +123,20 @@ def game():
             session["isWinner"] = "false"
             session["attempts"] = session["attempts"] + 1
 
+        game = Game.query.filter_by(id=session['idGame']).first()
+        if game is None:
+            game = Game(session["id"], 0, False, datetime.now(), datetime.now(), 0, 0)
+            db.session.add(game)
+            db.session.commit()
+            session['idGame'] = game.id
+        else:
+            game.end = datetime.now()
+            duration = (datetime.now() - game.start).total_seconds()
+            durationsMinutes = duration / 60
+            game.duration = durationsMinutes
+            game.attemps = session['attempts']
+            game.is_winner = session['isWinner'] == "true"
+            db.session.commit()
         return render_template('game.html', clase=clase)
     else:
         session["attempts"] = 0
