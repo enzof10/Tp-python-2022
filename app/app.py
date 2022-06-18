@@ -13,6 +13,7 @@ from flask_sqlalchemy import SQLAlchemy
 from utils.db import db
 from models.user import User
 from models.game import Game
+from models.plays import Play_number
 
 app = Flask(__name__)
 
@@ -81,7 +82,7 @@ def login():
 def ramdomGame():
     randoms = []
     for i in range(5):
-        randoms.append(random.randint(0, 60))
+        randoms.append(random.randint(0, 50))
     return randoms
 
 
@@ -93,6 +94,7 @@ def options():
     return render_template('options.html')
 
 
+
 @app.route('/game', methods=['GET', 'POST'])
 def game():
     clase = ["", "", "", "", ""]
@@ -100,6 +102,7 @@ def game():
     if request.method == 'POST':
         userNumbersSave = []
         corrects = 0
+        print(session['numbers'])
         for positionUserNumber in userNumbers.keys():
             userNumbersSave.append(userNumbers[positionUserNumber])
             for positionRandom in range(len(session['numbers'])):
@@ -137,12 +140,73 @@ def game():
             game.attemps = session['attempts']
             game.is_winner = session['isWinner'] == "true"
             db.session.commit()
+        # game_id, attemp, is_winner, numbers , date
+        playNumber = Play_number(session["idGame"], session["attempts"], session["isWinner"] == 'true', str(session["userNumbers"]), datetime.now()) 
+        db.session.add(playNumber)
+        db.session.commit()
         return render_template('game.html', clase=clase)
     else:
         session["attempts"] = 0
         session["isWinner"] = "false"
         session["startGame"] = datetime.now()
+        session["idGame"] = 0
+        randoms = ramdomGame()
+        print(randoms)
+        session['numbers'] = randoms
         return render_template('game.html', clase=clase)
+
+def getAllGamesByUser(id):
+    games = Game.query.filter_by(user_id=id).all()
+    return games
+
+def getAllPlaysByUser(id):
+    plays = Play_number.query.filter_by(user_id=id).all()
+    return plays
+
+def getAllPlaysByGame(id):
+    plays = Play_number.query.filter_by(game_id=id).all()
+    return plays
+
+def getStatistics(id):
+    games = getAllGamesByUser(id)
+    gamesWon = 0
+    gamesLost = 0
+    gamesDuration = 0
+    gamesAttempts = 0
+    for game in games:
+        if game.is_winner:
+            gamesWon = gamesWon + 1
+        else:
+            gamesLost = gamesLost + 1
+        gamesDuration = gamesDuration + game.duration
+        gamesAttempts = gamesAttempts + game.attemps
+    return gamesWon, gamesLost, gamesDuration, gamesAttempts
+
+
+@app.route('/statistics')
+def statistics():
+    statisticsCurrentByUser = {}
+    wins = 0
+    losses = 0
+    played = 0
+    gamesCurrentUser = Game.query.filter_by(user_id=session['id']).all()
+    for game in gamesCurrentUser:
+        played = played + 1
+        if game.is_winner:
+            wins = wins + 1
+        else:
+            losses = losses + 1
+        statisticsCurrentByUser[game.id] = {}
+        statisticsCurrentByUser[game.id]["attempts"] = game.attemps
+        statisticsCurrentByUser[game.id]["duration"] = game.duration
+        statisticsCurrentByUser[game.id]["is_winner"] = game.is_winner
+        statisticsCurrentByUser[game.id]["date"] = game.start
+    statisticsCurrentByUser["wins"] = wins
+    statisticsCurrentByUser["losses"] = losses
+    statisticsCurrentByUser["played"] = played
+
+
+    return render_template('statistics.html', statisticsCurrentByUser=statisticsCurrentByUser)
 
 
 def queryString():

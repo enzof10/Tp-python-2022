@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statistics</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/statistics.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="login">
+        <a href="options">{{ session.name }}</a>
+      </div>
+    </nav>
+    <h2>Statistics</h2>
+    <div class="statistics">
+      <div class="statistics__container">
+        <h3>Your statistics</h3>
+        <p>You have played {{ statisticsCurrentByUser.played }} games.</p>
+        <p>You have won {{ statisticsCurrentByUser.wins }} games.</p>
+        <p>You have lost {{ statisticsCurrentByUser.losses }} games.</p>
+      </div>
+      <div class="statistics__container">
+        <h3>Global statistics</h3>
+     
+        <table>
+          <tr>
+            <th>game</th>
+            <th>duration(m)</th>
+            <th>Result</th>
+            <th>Date</th>
+          </tr>
+          {% for game in statisticsCurrentByUser %}
+          <tr>
+            <td>{{ game }}</td>
+            <td>{{ statisticsCurrentByUser[game].duration }}</td>
+            <td>{{ "Winner" if statisticsCurrentByUser[game].is_winner else "Loser" }}</td>
+            <td>{{ statisticsCurrentByUser[game].date }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <a href="{{ url_for('options') }}">Back to options</a>
+    </div>
+  </body>
+</html>
