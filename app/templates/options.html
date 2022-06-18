@@ -11,9 +11,18 @@
     <title>Options</title>
   </head>
   <body>
+   <!-- si no esta logueado redirecciona a login -->
+   {% if not session.logged_in %}
+    <script>
+        window.location.href = "{{ url_for('login') }}";
+    </script>
+    {% endif %}
     <nav>
       <div class="login">
           <a href="options">{{ session.name }}</a>
+      </div>
+      <div class="logout">
+        <a href="logout">Logout</a>
       </div>
   </nav>
     <h2>Choose your destiny</h2>

@@ -8,10 +8,19 @@
     <title>Game</title>
   </head>
   <body>
+    {% if not session.logged_in %}
+    <script>
+        window.location.href = "{{ url_for('login') }}";
+    </script>
+    {% endif %}
     <nav>
-      <div class="login">
-          <a href="options">{{ session.name }}</a>
+      <div class="back">
+        <a href="{{ url_for('options') }}">Back</a>
       </div>
+    <div class="login">
+      <a href="options">{{ session.name }}</a>
+      <a href="logout">Logout</a>
+    </div>
   </nav>
     <h1>guess the numbers and their places between 0 and 50</h1>
     <h1>you made {{ session.attempts }} attempts</h1>

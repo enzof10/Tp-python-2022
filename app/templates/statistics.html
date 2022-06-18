@@ -11,35 +11,69 @@
     />
   </head>
   <body>
+    {% if not session.logged_in %}
+    <script>
+      window.location.href = "{{ url_for('login') }}";
+    </script>
+    {% endif %}
     <nav>
+        <div class="back">
+          <a href="{{ url_for('options') }}">Back</a>
+        </div>
       <div class="login">
         <a href="options">{{ session.name }}</a>
+        <a href="logout">Logout</a>
       </div>
     </nav>
     <h2>Statistics</h2>
+      <form method="POST">
+        <div class="form_user">
+          <label for="user">User:</label>
+          <select name="user" id="user" >
+            <option value="all" selected>All</option>
+            {% for user in users %}
+              <option value="{{ user.id }}">{{ user.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form__period">
+          <label for="from">From  
+          </label>
+          <input type="date" class="from" name="from" id="from">
+        </div>
+        <div class="form__period">
+          <label for="to">To
+          </label>
+          <input type="date" class="to" name="to" id="to">
+        </div>
+        <input type="submit" value="query" class="submit">
+      </form>
     <div class="statistics">
       <div class="statistics__container">
-        <h3>Your statistics</h3>
-        <p>You have played {{ statisticsCurrentByUser.played }} games.</p>
-        <p>You have won {{ statisticsCurrentByUser.wins }} games.</p>
-        <p>You have lost {{ statisticsCurrentByUser.losses }} games.</p>
-      </div>
-      <div class="statistics__container">
-        <h3>Global statistics</h3>
-     
+        <h3>Resume:</h3>
+        <p>* Played {{ resume.played }} games.</p>
+        <p>* Won {{ resume.wins }} games.</p>
+        <p>* Lost {{ resume.losses }} games.</p>
         <table>
           <tr>
+            <th>user </th>
             <th>game</th>
+            <th>attempts</th>
             <th>duration(m)</th>
             <th>Result</th>
             <th>Date</th>
           </tr>
-          {% for game in statisticsCurrentByUser %}
+          {% for game in statistics %}
           <tr>
+            <td>{{ statistics[game].user }}</td>
             <td>{{ game }}</td>
-            <td>{{ statisticsCurrentByUser[game].duration }}</td>
-            <td>{{ "Winner" if statisticsCurrentByUser[game].is_winner else "Loser" }}</td>
-            <td>{{ statisticsCurrentByUser[game].date }}</td>
+            <td>{{ statistics[game].attempts }}</td>
+            <td>{{ statistics[game].duration }}</td>
+            <td>
+              {{ "Winner" if statistics[game].is_winner else
+              "Loser" }}
+            </td>
+            <td>{{ statistics[game].date }}</td>
           </tr>
           {% endfor %}
         </table>

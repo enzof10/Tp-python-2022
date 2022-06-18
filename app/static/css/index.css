@@ -116,13 +116,21 @@ nav{
     font-size: 1.5rem;
     text-decoration: none;
     color: #191254;
-    border: 1px solid rgb(11, 11, 11);
     transition: all 0.5s ease-in-out;
     width: 10%;
 
 }
-.login:hover{
+.login:hover, .logout:hover{
     background-color: #000000;
     color: #F1EEE9;
     border: #73777B 1px solid;
+}
+
+.logout{
+    margin-right: 3rem;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #191254;
+    transition: all 0.5s ease-in-out;
 }

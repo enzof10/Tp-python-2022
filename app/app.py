@@ -27,6 +27,8 @@ with app.app_context():
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 # si la palabra es una cadena vacia, retorna false
+
+
 def isValid(word):
     return word.strip() != ""
 
@@ -58,6 +60,7 @@ def index():
             return render_template('index.html', error="El usuario ya existe")
     return render_template('index.html')
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -69,6 +72,7 @@ def login():
                 session["name"] = user.name
                 session["id"] = user.id
                 session["idGame"] = 0
+                session["logged_in"] = True
                 return redirect(url_for('options'))
             else:
                 print("Password incorrecto")
@@ -77,6 +81,12 @@ def login():
             print("Usuario no encontrado")
             return render_template('login.html', error="Usuario no encontrado")
     return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    session['logged_in'] = False
+    return redirect(url_for('index'))
 
 
 def ramdomGame():
@@ -92,7 +102,6 @@ def options():
     print(randoms)
     session['numbers'] = randoms
     return render_template('options.html')
-
 
 
 @app.route('/game', methods=['GET', 'POST'])
@@ -128,7 +137,8 @@ def game():
 
         game = Game.query.filter_by(id=session['idGame']).first()
         if game is None:
-            game = Game(session["id"], 0, False, datetime.now(), datetime.now(), 0, 0)
+            game = Game(session["id"], 0, False, datetime.now(),
+                        datetime.now(), 0, session["attempts"])
             db.session.add(game)
             db.session.commit()
             session['idGame'] = game.id
@@ -141,7 +151,8 @@ def game():
             game.is_winner = session['isWinner'] == "true"
             db.session.commit()
         # game_id, attemp, is_winner, numbers , date
-        playNumber = Play_number(session["idGame"], session["attempts"], session["isWinner"] == 'true', str(session["userNumbers"]), datetime.now()) 
+        playNumber = Play_number(session["idGame"], session["attempts"], session["isWinner"] == 'true', str(
+            session["userNumbers"]), datetime.now())
         db.session.add(playNumber)
         db.session.commit()
         return render_template('game.html', clase=clase)
@@ -155,17 +166,21 @@ def game():
         session['numbers'] = randoms
         return render_template('game.html', clase=clase)
 
+
 def getAllGamesByUser(id):
     games = Game.query.filter_by(user_id=id).all()
     return games
+
 
 def getAllPlaysByUser(id):
     plays = Play_number.query.filter_by(user_id=id).all()
     return plays
 
+
 def getAllPlaysByGame(id):
     plays = Play_number.query.filter_by(game_id=id).all()
     return plays
+
 
 def getStatistics(id):
     games = getAllGamesByUser(id)
@@ -183,30 +198,57 @@ def getStatistics(id):
     return gamesWon, gamesLost, gamesDuration, gamesAttempts
 
 
-@app.route('/statistics')
+def getAllUsers():
+    users = User.query.all()
+    return users
+
+
+@app.route('/statistics', methods=['GET', 'POST'])
 def statistics():
-    statisticsCurrentByUser = {}
+    gamesByUser = []
+    print(request.method)
+    if request.method == 'POST':
+
+        userIdForData = request.form["user"]
+        # if filter by user
+        # filter by period and user_id
+        fromDate = request.form["from"]
+        toDate = request.form["to"]
+        if fromDate != "" and toDate != "":
+            gamesByUser = Game.query.filter(
+                Game.user_id == userIdForData, 
+                Game.start >= fromDate, 
+                Game.start <= toDate
+                ).all()
+        else:
+            gamesByUser = Game.query.filter(
+                Game.user_id == userIdForData).all()
+    else:
+        gamesByUser = Game.query.filter_by(user_id=session['id']).all()
+
+    statistics = {}
+    resume = {}
     wins = 0
     losses = 0
     played = 0
-    gamesCurrentUser = Game.query.filter_by(user_id=session['id']).all()
-    for game in gamesCurrentUser:
+    for game in gamesByUser:
         played = played + 1
         if game.is_winner:
             wins = wins + 1
         else:
             losses = losses + 1
-        statisticsCurrentByUser[game.id] = {}
-        statisticsCurrentByUser[game.id]["attempts"] = game.attemps
-        statisticsCurrentByUser[game.id]["duration"] = game.duration
-        statisticsCurrentByUser[game.id]["is_winner"] = game.is_winner
-        statisticsCurrentByUser[game.id]["date"] = game.start
-    statisticsCurrentByUser["wins"] = wins
-    statisticsCurrentByUser["losses"] = losses
-    statisticsCurrentByUser["played"] = played
+        statistics[game.id] = {}
+        statistics[game.id]["attempts"] = game.attemps
+        statistics[game.id]["duration"] = game.duration
+        statistics[game.id]["is_winner"] = game.is_winner
+        statistics[game.id]["date"] = game.start
+        statistics[game.id]["user"] = game.user.name
+    resume["wins"] = wins
+    resume["losses"] = losses
+    resume["played"] = played
+    users = getAllUsers()
 
-
-    return render_template('statistics.html', statisticsCurrentByUser=statisticsCurrentByUser)
+    return render_template('statistics.html', statistics=statistics, resume=resume, users=users)
 
 
 def queryString():
