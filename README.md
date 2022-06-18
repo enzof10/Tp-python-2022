@@ -1,5 +1,5 @@
 <h1>TP-2022: Adivina el numero</h1>
-<h2>Esta app esta desarrollada con flask y SQLAlchemy para complir con un trabajo practico</h2>
+<h2>Esta app esta desarrollada con flask y SQLAlchemy</h2>
 <p>La aplicacion consta de entrar, loguearse o iniciar sesion y
   al hacerlo van a aparecer dos opciones, una para jugar el juego
   y otra para ver las estadisticas del juego.
