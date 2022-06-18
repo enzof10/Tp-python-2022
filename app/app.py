@@ -208,23 +208,32 @@ def statistics():
     gamesByUser = []
     print(request.method)
     if request.method == 'POST':
-
         userIdForData = request.form["user"]
         # if filter by user
         # filter by period and user_id
         fromDate = request.form["from"]
         toDate = request.form["to"]
         if fromDate != "" and toDate != "":
-            gamesByUser = Game.query.filter(
-                Game.user_id == userIdForData, 
-                Game.start >= fromDate, 
-                Game.start <= toDate
-                ).all()
+            if userIdForData != "all":
+                gamesByUser = Game.query.filter(
+                    Game.user_id == userIdForData, 
+                    Game.start >= fromDate, 
+                    Game.start <= toDate
+                    ).all()
+            else:
+                gamesByUser = Game.query.filter(
+                    Game.start >= fromDate, 
+                    Game.start <= toDate
+                    ).all()
         else:
-            gamesByUser = Game.query.filter(
-                Game.user_id == userIdForData).all()
+            if userIdForData != "all":
+                gamesByUser = Game.query.filter(
+                    Game.user_id == userIdForData
+                    ).all()
+            else:
+                gamesByUser = Game.query.all()
     else:
-        gamesByUser = Game.query.filter_by(user_id=session['id']).all()
+        gamesByUser = Game.query.all()
 
     statistics = {}
     resume = {}
