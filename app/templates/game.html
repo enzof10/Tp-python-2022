@@ -36,7 +36,7 @@
               {% if session.userNumbers: %}
                 <input type="number" id={{index}} name={{index}} class={{clase[index]}} value={{session.userNumbers[index]}} required/>
               {% else %}
-                <input type="number" id={{index}} name={{index}} class={{clase[index]}} required/>
+                <input type="number" id={{index}} name={{index}} class={{clase[index]}} max="50" min="0" required/>
               {% endif %}
             {% endfor %}
           </div>

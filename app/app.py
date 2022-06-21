@@ -27,8 +27,6 @@ with app.app_context():
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 # si la palabra es una cadena vacia, retorna false
-
-
 def isValid(word):
     return word.strip() != ""
 
@@ -111,7 +109,6 @@ def game():
     if request.method == 'POST':
         userNumbersSave = []
         corrects = 0
-        print(session['numbers'])
         for positionUserNumber in userNumbers.keys():
             userNumbersSave.append(userNumbers[positionUserNumber])
             for positionRandom in range(len(session['numbers'])):
